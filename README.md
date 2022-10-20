@@ -1,3 +1,10 @@
+## using typescript
+
+1. install the typescript node module using npm install typescript ts-node
+2. install the typescript version of the packages use eg fs-extra use npm install @types/fs-extra
+3. import file using typescript sytle eg import {ethers} from "ethers"
+4. run npx ts-node <deploy script name> instead of node <deploy script name>
+
 to compile,
 
 1. use solcjs ensure to install it global using npm install -g solcjs

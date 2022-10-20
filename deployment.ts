@@ -1,6 +1,6 @@
-const ethers = require("ethers");
-const fs = require("fs-extra");
-require("dotenv").config();
+import { ethers } from "ethers";
+import * as fs from "fs-extra";
+import "dotenv/config";
 
 async function main() {
   //connect to local blockchain provider
@@ -17,9 +17,9 @@ async function main() {
   const encryptedJson = fs.readFileSync("./encryptedKey.json", "utf-8");
 
   //wallet is let here, because we will connect to a provider after
-  let wallet = new ethers.Wallet.fromEncryptedJsonSync(
+  let wallet = ethers.Wallet.fromEncryptedJsonSync(
     encryptedJson,
-    process.env.PRIVATE_KEY_PASSWORD
+    process.env.PRIVATE_KEY_PASSWORD!
   );
 
   wallet = wallet.connect(provider);
@@ -79,7 +79,7 @@ async function main() {
 
   //calling the store function passing it an argument as string even if it actually a number
   const txResponse = await contract.store("4");
-  txReceipt = await txResponse.wait(1);
+  const txReceipt = await txResponse.wait(1);
 
   const updatedFavNumber = await contract.retrieve();
   console.log(`updated favorite number is now: ${updatedFavNumber}`);
