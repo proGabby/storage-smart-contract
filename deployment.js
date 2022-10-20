@@ -7,12 +7,22 @@ async function main() {
   const provider = new ethers.providers.JsonRpcProvider(
     process.env.RPC_URL //ganache RPC URL
   );
+  //note: we dont need this when your encryptedkeys
+  // //get a wallet to be able to sign transactions
+  // const wallet = new ethers.Wallet(
+  //   process.env.PRIVATE_KEY, //ganache wallet private key
+  //   provider
+  // );
 
-  //get a wallet to be able to sign transactions
-  const wallet = new ethers.Wallet(
-    process.env.PRIVATE_KEY, //ganache wallet private key
-    provider
+  const encryptedJson = fs.readFileSync("./encryptedKey.json", "utf-8");
+
+  //wallet is let here, because we will connect to a provider after
+  let wallet = new ethers.Wallet.fromEncryptedJsonSync(
+    encryptedJson,
+    process.env.PRIVATE_KEY_PASSWORD
   );
+
+  wallet = wallet.connect(provider);
 
   //get abi in the bin
   const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");
@@ -21,6 +31,7 @@ async function main() {
     "./SimpleStorage_sol_SimpleStorage.bin",
     "utf-8"
   );
+
   //contract factory object to deploy contract
   //Note contract object is in the ABI
   const contractFactory = new ethers.ContractFactory(abi, binary, wallet);

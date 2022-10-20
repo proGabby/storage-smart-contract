@@ -13,3 +13,11 @@ to deploy on ganache
 1. install and run ganache
 2. get RPC url for ganache
 3. use etherjs to make API call
+
+deploying to a testnet using the encrypt key
+
+1. input your private key of your wallet on the .env file
+2. input rpl_url of the node network eg alchemy on your .env file
+3. input the private key password that will be use to decrypt the file
+4. run encryptkey.js to encrypt your key
+5. run node <deploy file>
